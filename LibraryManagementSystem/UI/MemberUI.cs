@@ -57,12 +57,32 @@ namespace LibraryManagementSystem.UI
         public static void ListMembersUI()
         {
             Console.Clear();
+
+            string header = "BOOK LIST";
+            Console.WriteLine(header.PadLeft((Console.WindowWidth + header.Length) / 2));
+            Console.WriteLine();
+
             var members = memberService.GetAllMembers();
+
+            Console.Clear();
+            Console.WriteLine("=========== MEMBER LIST ===========");
+            Console.WriteLine(
+                "ID".PadRight(5) +
+                "FULL NAME".PadRight(25) +
+                "EMAIL"
+            );
+            Console.WriteLine(new string('-', 50));
+
             foreach (var m in members)
             {
-                Console.WriteLine($"ID: {m.Id} | Name: {m.FullName} | Email: {m.Email} | Phone: {m.PhoneNumber} | Date: {m.MembershipDate.ToShortDateString()} | Active: {(m.IsActive ? "Beli" : "Xeyr")}");
+                Console.WriteLine(
+                    m.Id.ToString().PadRight(5) +
+                    m.FullName.PadRight(25) +
+                    m.Email
+                );
             }
-            Console.WriteLine("Enter basin...");
+
+            Console.WriteLine("\nEnter basin...");
             Console.ReadLine();
         }
 
@@ -136,6 +156,8 @@ namespace LibraryManagementSystem.UI
 
         public static void SearchMemberUI()
         {
+        
+
             Console.Write("Axtarish sozunu daxil edin (ad/email üzrə): ");
             string keyword = Console.ReadLine();
 

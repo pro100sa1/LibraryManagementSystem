@@ -12,8 +12,17 @@ namespace LibraryManagementSystem.DAL.Repositories
         private const int DESCRIPTION_Length = 50;
 
         private readonly string filePath = "Data/categories.txt";
+        public CategoryRepository()
+        {
+            string dir = Path.GetDirectoryName(filePath);
+            if (!Directory.Exists(dir))
+                Directory.CreateDirectory(dir);
 
-       
+            if (!File.Exists(filePath))
+                File.Create(filePath).Close();
+        }
+
+
         public void Add(Category category)
         {
             string line =

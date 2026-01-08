@@ -15,8 +15,18 @@ namespace LibraryManagementSystem.DAL.Repositories
         private const int ACTIVE_Length = 1;
 
         private readonly string filePath = "Data/members.txt";
+        public MemberRepository()
+        {
+            string dir = Path.GetDirectoryName(filePath);
+            if (!Directory.Exists(dir))
+                Directory.CreateDirectory(dir);
 
-     
+            if (!File.Exists(filePath))
+                File.Create(filePath).Close();
+        }
+
+
+
         public void Add(Member member)
         {
             string line =

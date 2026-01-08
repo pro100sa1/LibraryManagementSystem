@@ -16,8 +16,18 @@ namespace LibraryManagementSystem.DAL.Repositories
         private const int AVAILABLE_Length = 1;
 
         private readonly string filePath = "Data/books.txt";
+        public BookRepository()
+        {
+            string dir = Path.GetDirectoryName(filePath);
+            if (!Directory.Exists(dir))
+                Directory.CreateDirectory(dir);
 
-        // ---------------- Add ----------------
+            if (!File.Exists(filePath))
+                File.Create(filePath).Close();
+        }
+
+
+
         public void Add(Book book)
         {
             string line =
@@ -32,7 +42,7 @@ namespace LibraryManagementSystem.DAL.Repositories
             File.AppendAllText(filePath, line + Environment.NewLine);
         }
 
-        // ---------------- GetAll ----------------
+        
         public List<Book> GetAll()
         {
             List<Book> books = new List<Book>();
@@ -59,8 +69,14 @@ namespace LibraryManagementSystem.DAL.Repositories
 
             return books;
         }
+        public int GenerateNewId()
+        {
+            var books = GetAll();
+            if (books.Count == 0) return 1;
+            return books[^1].Id + 1;
+        }
 
-        
+
         public Book GetById(int id)
         {
             List<Book> books = GetAll();

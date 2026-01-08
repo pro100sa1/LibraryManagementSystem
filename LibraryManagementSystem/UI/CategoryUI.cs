@@ -19,7 +19,7 @@ namespace LibraryManagementSystem.UI
                 Console.Write("Kateqoriya adi: ");
                 string name = Console.ReadLine();
 
-                Console.Write("Təsvir: ");
+                Console.Write("Tesvir: ");
                 string description = Console.ReadLine();
 
                 var category = new Category
@@ -45,14 +45,33 @@ namespace LibraryManagementSystem.UI
         public static void ListCategoriesUI()
         {
             Console.Clear();
-            List<Category> categories = categoryService.GetAllCategories();
+
+            string header = "BOOK LIST";
+            Console.WriteLine(header.PadLeft((Console.WindowWidth + header.Length) / 2));
+            Console.WriteLine();
+
+            var categories = categoryService.GetAllCategories();
+
+            Console.Clear();
+            Console.WriteLine("========== CATEGORY LIST ==========");
+            Console.WriteLine(
+                "ID".PadRight(5) +
+                "NAME".PadRight(25)
+            );
+            Console.WriteLine(new string('-', 30));
+
             foreach (var c in categories)
             {
-                Console.WriteLine($"ID: {c.Id} | Name: {c.Name} | Description: {c.Description}");
+                Console.WriteLine(
+                    c.Id.ToString().PadRight(5) +
+                    c.Name.PadRight(25)
+                );
             }
-            Console.WriteLine("Enter basin...");
+
+            Console.WriteLine("\nEnter basin...");
             Console.ReadLine();
         }
+
 
         public static void GetCategoryByIdUI()
         {

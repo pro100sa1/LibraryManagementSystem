@@ -13,8 +13,8 @@ namespace LibraryManagementSystem.UI
         {
             try
             {
-                Console.Write("Kitabin ID: ");
-                int id = int.Parse(Console.ReadLine());
+                int id = bookService.GetNewBookId();
+                Console.WriteLine($"Avtomatik ID: {id}");
 
                 Console.Write("Kitabin Adi: ");
                 string title = Console.ReadLine();
@@ -27,6 +27,12 @@ namespace LibraryManagementSystem.UI
 
                 Console.Write("Yayin ili: ");
                 int year = int.Parse(Console.ReadLine());
+
+              
+                if (year > DateTime.Now.Year)
+                {
+                    throw new Exception("Kitab gelecekde yazila bilmez!");
+                }
 
                 Console.Write("Kateqoriya ID: ");
                 int catId = int.Parse(Console.ReadLine());
@@ -47,7 +53,8 @@ namespace LibraryManagementSystem.UI
 
                 bookService.AddBook(book);
 
-                Console.WriteLine("Kitab ugurla elave olundu! Enter basin...");
+                Console.WriteLine("Kitab ugurla elave olundu!");
+                Console.WriteLine("Enter basin...");
                 Console.ReadLine();
             }
             catch (Exception ex)
@@ -58,17 +65,47 @@ namespace LibraryManagementSystem.UI
             }
         }
 
+        
+
+
         public static void ListBooksUI()
         {
             Console.Clear();
-            List<Book> books = bookService.GetAllBooks();
+
+            string header = "BOOK LIST";
+            Console.WriteLine(header.PadLeft((Console.WindowWidth + header.Length) / 2));
+            Console.WriteLine();
+
+            var books = bookService.GetAllBooks();
+
+            Console.Clear();
+            Console.WriteLine("============== BOOK LIST ==============");
+            Console.WriteLine(
+                "ID".PadRight(5) +
+                "TITLE".PadRight(20) +
+                "AUTHOR".PadRight(20) +
+                "YEAR".PadRight(8) +
+                "CAT ID".PadRight(8) +
+                "STATUS"
+            );
+            Console.WriteLine(new string('-', 70));
+
             foreach (var b in books)
             {
-                Console.WriteLine($"ID: {b.Id} | Title: {b.Title} | Author: {b.Author} | ISBN: {b.ISBN} | Year: {b.PublishedYear} | CategoryID: {b.CategoryId} | Available: {(b.IsAvailable ? "Beli" : "Xeyr")}");
+                Console.WriteLine(
+                    b.Id.ToString().PadRight(5) +
+                    b.Title.PadRight(20) +
+                    b.Author.PadRight(20) +
+                    b.PublishedYear.ToString().PadRight(8) +
+                    b.CategoryId.ToString().PadRight(8) +
+                    (b.IsAvailable ? "Available" : "Not Available")
+                );
             }
+
             Console.WriteLine("Enter basin...");
             Console.ReadLine();
         }
+        
 
         public static void GetBookByIdUI()
         {
@@ -151,21 +188,59 @@ namespace LibraryManagementSystem.UI
             Console.WriteLine("Kitab silindi! Enter basin...");
             Console.ReadLine();
         }
-
         public static void SearchBookUI()
         {
-            Console.Write("Axtarish sozunu daxil edin: ");
+            Console.Clear();
+            Console.Write("Axtarilacaq soz: ");
             string keyword = Console.ReadLine();
 
-            List<Book> books = bookService.SearchBooks(keyword);
+            var results = bookService.SearchBooks(keyword);
 
-            foreach (var b in books)
+            Console.Clear();
+            Console.WriteLine("=========== SEARCH RESULT ===========");
+            Console.WriteLine(
+                "ID".PadRight(5) +
+                "TITLE".PadRight(20) +
+                "AUTHOR".PadRight(20) +
+                "YEAR".PadRight(8) +
+                "STATUS"
+            );
+            Console.WriteLine(new string('-', 65));
+
+            if (results.Count == 0)
             {
-                Console.WriteLine($"ID: {b.Id} | Title: {b.Title} | Author: {b.Author} | ISBN: {b.ISBN} | Year: {b.PublishedYear} | CategoryID: {b.CategoryId} | Available: {(b.IsAvailable ? "Beli" : "Xeyr")}");
+                Console.WriteLine("Netice tapilmadi!");
+            }
+            else
+            {
+                foreach (var b in results)
+                {
+                    Console.Write(
+                        b.Id.ToString().PadRight(5) +
+                        b.Title.PadRight(20) +
+                        b.Author.PadRight(20) +
+                        b.PublishedYear.ToString().PadRight(8)
+                    );
+
+                   
+                    if (b.IsAvailable)
+                    {
+                        Console.ForegroundColor = ConsoleColor.Green;
+                        Console.WriteLine("Available");
+                    }
+                    else
+                    {
+                        Console.ForegroundColor = ConsoleColor.Red;
+                        Console.WriteLine("Not Available");
+                    }
+                    Console.ResetColor();
+                }
             }
 
-            Console.WriteLine("Enter basin...");
+            Console.WriteLine("\nEnter basin...");
             Console.ReadLine();
         }
+
+
     }
 }

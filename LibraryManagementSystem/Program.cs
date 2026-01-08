@@ -3,93 +3,198 @@ using LibraryManagementSystem.UI;
 
 namespace LibraryManagementSystem.UI
 {
+    
+
     class Program
     {
-        static void Main(string[] args)
+        static void Main()
         {
-            bool exit = false;
+            ShowWelcome();
 
-            while (!exit)
+            while (true)
             {
-                Console.Clear();
-                Console.WriteLine("==== Kitabxana Idareetmesi ====");
-                Console.WriteLine("1. Kitab elave et");
-                Console.WriteLine("2. Kitablari goster");
-                Console.WriteLine("3. Kitab axtar");
-                Console.WriteLine("4. Kitab yenile");
-                Console.WriteLine("5. Kitab sil");
-                Console.WriteLine("6. Kateqoriya elave et");
-                Console.WriteLine("7. Kateqoriyalari goster");
-                Console.WriteLine("8. Kateqoriya axtar");
-                Console.WriteLine("9. Kateqoriya yenile");
-                Console.WriteLine("10. Kateqoriya sil");
-                Console.WriteLine("11. Uzv elave et");
-                Console.WriteLine("12. Uzvleri goster");
-                Console.WriteLine("13. Uzv axtar");
-                Console.WriteLine("14. Uzv yenile");
-                Console.WriteLine("15. Uzv sil");
-                Console.WriteLine("0. Cixish");
-                Console.Write("Seciminizi daxil edin: ");
-
+                DrawMainMenu();
                 string choice = Console.ReadLine();
 
                 switch (choice)
                 {
                     case "1":
-                        BookUI.AddBookUI();
+                        BookMenu();
                         break;
                     case "2":
-                        BookUI.ListBooksUI();
+                        CategoryMenu();
                         break;
                     case "3":
-                        BookUI.SearchBookUI();
-                        break;
-                    case "4":
-                        BookUI.UpdateBookUI();
-                        break;
-                    case "5":
-                        BookUI.DeleteBookUI();
-                        break;
-                    case "6":
-                        CategoryUI.AddCategoryUI();
-                        break;
-                    case "7":
-                        CategoryUI.ListCategoriesUI();
-                        break;
-                    case "8":
-                        CategoryUI.SearchCategoryUI();
-                        break;
-                    case "9":
-                        CategoryUI.UpdateCategoryUI();
-                        break;
-                    case "10":
-                        CategoryUI.DeleteCategoryUI();
-                        break;
-                    case "11":
-                        MemberUI.AddMemberUI();
-                        break;
-                    case "12":
-                        MemberUI.ListMembersUI();
-                        break;
-                    case "13":
-                        MemberUI.SearchMemberUI();
-                        break;
-                    case "14":
-                        MemberUI.UpdateMemberUI();
-                        break;
-                    case "15":
-                        MemberUI.DeleteMemberUI();
+                        MemberMenu();
                         break;
                     case "0":
-                        exit = true;
-                        break;
+                        ExitApp();
+                        return;
                     default:
-                        Console.WriteLine("Yanlish secim! Enter basin...");
-                        Console.ReadLine();
+                        ShowError("Yanlish secim! Yeniden cehd edin.");
                         break;
                 }
             }
         }
+
+        // ================= WELCOME =================
+        static void ShowWelcome()
+        {
+            Console.Clear();
+            Console.ForegroundColor = ConsoleColor.Green;
+            Console.WriteLine("====================================");
+            Console.WriteLine("   WELCOME TO LIBRARY MANAGEMENT");
+            Console.WriteLine("====================================");
+            Console.WriteLine("Press any key to continue...");
+            Console.ResetColor();
+            Console.ReadKey();
+        }
+
+        // ================= MAIN MENU =================
+        static void DrawMainMenu()
+        {
+            Console.Clear();
+
+            Console.ForegroundColor = ConsoleColor.Cyan;
+            Console.WriteLine("╔══════════════════════════════╗");
+            Console.WriteLine("║        LIBRARY SYSTEM        ║");
+            Console.WriteLine("╚══════════════════════════════╝");
+            Console.ResetColor();
+
+            Console.WriteLine();
+            Console.ForegroundColor = ConsoleColor.Yellow;
+            Console.WriteLine(" [1]  Book Menu");
+            Console.WriteLine(" [2]  Category Menu");
+            Console.WriteLine(" [3]  Member Menu");
+            Console.WriteLine(" [0]  Exit");
+            Console.ResetColor();
+
+            Console.Write("\nSeciminiz: ");
+        }
+
+        // ================= BOOK MENU =================
+        static void BookMenu()
+        {
+            while (true)
+            {
+                Console.Clear();
+                Console.ForegroundColor = ConsoleColor.Blue;
+                Console.WriteLine("===== BOOK MENU =====");
+                Console.ResetColor();
+
+                Console.WriteLine(" 1. Kitab elave et");
+                Console.WriteLine(" 2. Kitablari goster");
+                Console.WriteLine(" 3. Kitab axtar");
+                Console.WriteLine(" 4. Kitabi yenile");
+                Console.WriteLine(" 5. Kitabi sil");
+                Console.WriteLine(" 0. Geri qayit");
+                Console.Write("\nSeciminiz: ");
+
+                string c = Console.ReadLine();
+
+                switch (c)
+                {
+                    case "1": BookUI.AddBookUI(); break;
+                    case "2": BookUI.ListBooksUI(); break;
+                    case "3": BookUI.SearchBookUI(); break;
+                    case "4": BookUI.UpdateBookUI(); break;
+                    case "5": BookUI.DeleteBookUI(); break;
+                    case "0": return;
+                    default:
+                        ShowError("Yanlish secim!");
+                        break;
+                }
+            }
+        }
+
+        // ================= CATEGORY MENU =================
+        static void CategoryMenu()
+        {
+            while (true)
+            {
+                Console.Clear();
+                Console.ForegroundColor = ConsoleColor.DarkGreen;
+                Console.WriteLine("===== CATEGORY MENU =====");
+                Console.ResetColor();
+
+                Console.WriteLine(" 1. Category elave et");
+                Console.WriteLine(" 2. Category siyahisi");
+                Console.WriteLine(" 3. Category axtar");
+                Console.WriteLine(" 4. Category yenile");
+                Console.WriteLine(" 5. Category sil");
+                Console.WriteLine(" 0. Geri qayit");
+                Console.Write("\nSeciminiz: ");
+
+                string c = Console.ReadLine();
+
+                switch (c)
+                {
+                    case "1": CategoryUI.AddCategoryUI(); break;
+                    case "2": CategoryUI.ListCategoriesUI(); break;
+                    case "3": CategoryUI.SearchCategoryUI(); break;
+                    case "4": CategoryUI.UpdateCategoryUI(); break;
+                    case "5": CategoryUI.DeleteCategoryUI(); break;
+                    case "0": return;
+                    default:
+                        ShowError("Yanlish secim!");
+                        break;
+                }
+            }
+        }
+
+        // ================= MEMBER MENU =================
+        static void MemberMenu()
+        {
+            while (true)
+            {
+                Console.Clear();
+                Console.ForegroundColor = ConsoleColor.Magenta;
+                Console.WriteLine("===== MEMBER MENU =====");
+                Console.ResetColor();
+
+                Console.WriteLine(" 1. Member elave et");
+                Console.WriteLine(" 2. Member siyahisi");
+                Console.WriteLine(" 3. Member axtar");
+                Console.WriteLine(" 4. Member yenile");
+                Console.WriteLine(" 5. Member sil");
+                Console.WriteLine(" 0. Geri qayit");
+                Console.Write("\nSeciminiz: ");
+
+                string c = Console.ReadLine();
+
+                switch (c)
+                {
+                    case "1": MemberUI.AddMemberUI(); break;
+                    case "2": MemberUI.ListMembersUI(); break;
+                    case "3": MemberUI.SearchMemberUI(); break;
+                    case "4": MemberUI.UpdateMemberUI(); break;
+                    case "5": MemberUI.DeleteMemberUI(); break;
+                    case "0": return;
+                    default:
+                        ShowError("Yanlish secim!");
+                        break;
+                }
+            }
+        }
+
+        // ================= HELPERS =================
+        static void ShowError(string message)
+        {
+            Console.ForegroundColor = ConsoleColor.Red;
+            Console.WriteLine("\n❌ " + message);
+            Console.ResetColor();
+            Console.WriteLine("Enter basin...");
+            Console.ReadLine();
+        }
+
+        static void ExitApp()
+        {
+            Console.Clear();
+            Console.ForegroundColor = ConsoleColor.Green;
+            Console.WriteLine("Proqram baglanir... Sag olun!");
+            Console.ResetColor();
+            Console.ReadKey();
+        }
     }
-}
+} 
 

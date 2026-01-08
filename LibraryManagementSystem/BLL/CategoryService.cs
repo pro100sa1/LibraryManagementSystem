@@ -18,7 +18,7 @@ namespace LibraryManagementSystem.BLL
         public void AddCategory(Category category)
         {
             if (string.IsNullOrWhiteSpace(category.Name))
-                throw new Exception("Name boş ola bilməz!");
+                throw new Exception("Name bosh ola bilməz!");
 
             _repo.Add(category);
         }
@@ -37,7 +37,7 @@ namespace LibraryManagementSystem.BLL
         public void UpdateCategory(Category category)
         {
             if (string.IsNullOrWhiteSpace(category.Name))
-                throw new Exception("Name boş ola bilməz!");
+                throw new Exception("Name bosh ola bilməz!");
 
             _repo.Update(category);
         }

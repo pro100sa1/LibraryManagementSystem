@@ -20,11 +20,11 @@ namespace LibraryManagementSystem.BLL
         {
            
             if (string.IsNullOrWhiteSpace(book.Title))
-                throw new Exception("Title boş ola bilməz!");
+                throw new Exception("Title bosh ola bilmez!");
             if (string.IsNullOrWhiteSpace(book.Author))
-                throw new Exception("Author boş ola bilməz!");
+                throw new Exception("Author bosh ola bilmez!");
             if (string.IsNullOrWhiteSpace(book.ISBN) || book.ISBN.Length != 13)
-                throw new Exception("ISBN düzgün olmalıdır (13 simvol).");
+                throw new Exception("ISBN duzgun olmalidir (13 simvol).");
 
             _repo.Add(book);
         }
@@ -41,15 +41,19 @@ namespace LibraryManagementSystem.BLL
             return _repo.GetById(id);
         }
 
-        
+        public int GetNewBookId()
+        {
+            return _repo.GenerateNewId();
+        }
+
         public void UpdateBook(Book book)
         {
             if (string.IsNullOrWhiteSpace(book.Title))
-                throw new Exception("Title boş ola bilməz!");
+                throw new Exception("Title bosh ola bilmez!");
             if (string.IsNullOrWhiteSpace(book.Author))
-                throw new Exception("Author boş ola bilməz!");
+                throw new Exception("Author bosh ola bilmez!");
             if (string.IsNullOrWhiteSpace(book.ISBN) || book.ISBN.Length != 13)
-                throw new Exception("ISBN düzgün olmalıdır (13 simvol).");
+                throw new Exception("ISBN duzgun olmalidir (13 simvol).");
 
             _repo.Update(book);
         }
